@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Expense;
 use Illuminate\Http\Request;
 
 class ExpenseController extends Controller
@@ -13,7 +14,7 @@ class ExpenseController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(Expense::all());
     }
 
     /**
@@ -34,7 +35,12 @@ class ExpenseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $exp = new Expense;
+        $exp->name = 'Expense1';
+        $exp->amount = '1254545';
+        $exp->payment_time = '2019-03-26';
+        $exp->save();
+        return response()->json($exp);
     }
 
     /**
@@ -56,7 +62,10 @@ class ExpenseController extends Controller
      */
     public function edit($id)
     {
-        //
+        $exp = Expense::find($id);
+        $exp->amount = $exp->amount . '0';
+        $exp->update();
+        return response()->json($exp);
     }
 
     /**
@@ -79,6 +88,7 @@ class ExpenseController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Expense::where('id', $id)->delete();
+        return response()->json(["O'chirildi"=>true]);
     }
 }

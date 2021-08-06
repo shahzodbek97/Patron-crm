@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Deal;
 use Illuminate\Http\Request;
 
 class DealController extends Controller
@@ -13,7 +14,7 @@ class DealController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(Deal::all());
     }
 
     /**
@@ -34,7 +35,12 @@ class DealController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $deal = new Deal;
+        $deal->title = 'title1';
+        $deal->budjet = '2505155';
+        $deal->status = 'new_deal';
+        $deal->save();
+        return response()->json($deal);
     }
 
     /**
@@ -56,7 +62,10 @@ class DealController extends Controller
      */
     public function edit($id)
     {
-        //
+        $deal = Deal::find($id);
+        $deal->title = $deal->title . ', title2';
+        $deal->update();
+        return response()->json($deal);
     }
 
     /**
@@ -79,6 +88,7 @@ class DealController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Deal::where('id', $id)->delete();
+        return response()->json(["O'chirildi"=>true]);
     }
 }

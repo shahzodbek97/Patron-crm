@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Staff;
 use Illuminate\Http\Request;
 
 class StaffController extends Controller
@@ -13,7 +14,7 @@ class StaffController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(Staff::all());
     }
 
     /**
@@ -34,7 +35,12 @@ class StaffController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $staff = new Staff;
+        $staff->position = 'position, position';
+        $staff->full_name = 'Shahzod Xamdamboyev';
+        $staff->image = 'rasm';
+        $staff->save();
+        return response()->json($staff);
     }
 
     /**
@@ -56,7 +62,10 @@ class StaffController extends Controller
      */
     public function edit($id)
     {
-        //
+        $staff = Staff::find($id);
+        $staff->image = $staff->image . ' uchun joy';
+        $staff->update();
+        return response()->json($staff);
     }
 
     /**
@@ -79,6 +88,7 @@ class StaffController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Staff::where('id', $id)->delete();
+        return response()->json(["O'chirildi"=>true]);
     }
 }

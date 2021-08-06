@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
 use Illuminate\Http\Request;
 
 class ClientController extends Controller
@@ -13,7 +14,7 @@ class ClientController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(Client::all());
     }
 
     /**
@@ -34,7 +35,11 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $client = new Client;
+        $client->name = 'Begzod';
+        $client->user_id = '02';
+        $client->save();
+        return response()->json($client);
     }
 
     /**
@@ -56,7 +61,10 @@ class ClientController extends Controller
      */
     public function edit($id)
     {
-        //
+        $client = Client::find($id);
+        $client->name = $client->name . ' Mirobidov';
+        $client->update();
+        return response()->json($client);
     }
 
     /**
@@ -79,6 +87,7 @@ class ClientController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Client::where('id', $id)->delete();
+        return response()->json(["O'chirildi"=>true]);
     }
 }

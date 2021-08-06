@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Notification;
 use Illuminate\Http\Request;
 
 class NotificationController extends Controller
@@ -13,7 +14,7 @@ class NotificationController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(Notification::all());
     }
 
     /**
@@ -34,7 +35,14 @@ class NotificationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $notification = new Notification;
+        $notification->type = 'comment';
+        $notification->user_id = '25';
+        $notification->category_id = '36';
+        $notification->title = 'title2221';
+        $notification->description = 'description, description';
+        $notification->save();
+        return response()->json($notification);
     }
 
     /**
@@ -56,7 +64,10 @@ class NotificationController extends Controller
      */
     public function edit($id)
     {
-        //
+        $notification = Notification::find($id);
+        $notification->description = $notification->description . ', description';
+        $notification->update();
+        return response()->json($notification);
     }
 
     /**
@@ -79,6 +90,7 @@ class NotificationController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Notification::where('id', $id)->delete();
+        return response()->json(["O'chirildi"=>true]);
     }
 }

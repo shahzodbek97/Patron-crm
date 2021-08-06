@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Contact;
 use Illuminate\Http\Request;
 
 class ContactController extends Controller
@@ -13,7 +14,7 @@ class ContactController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(Contact::all());
     }
 
     /**
@@ -34,7 +35,13 @@ class ContactController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $contact = new Contact;
+        $contact->home_number = '99893123';
+        $contact->mobil_number = '66566544';
+        $contact->work_number = '223588';
+        $contact->email = 'work@gmail.com';
+        $contact->save();
+        return response()->json($contact);
     }
 
     /**
@@ -56,7 +63,10 @@ class ContactController extends Controller
      */
     public function edit($id)
     {
-        //
+        $contact = Contact::find($id);
+        $contact->email = $contact->email . 'user@gmail.com';
+        $contact->update();
+        return response()->json($contact);
     }
 
     /**
@@ -79,6 +89,7 @@ class ContactController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Contact::where('id', $id)->delete();
+        return response()->json(["O'chirildi"=>true]);
     }
 }
